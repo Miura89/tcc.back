@@ -1,5 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const userRoutes = require('./routes/userRoutes');
+
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const app = express();
 
