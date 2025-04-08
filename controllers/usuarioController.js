@@ -5,11 +5,9 @@ async function createUsuarioController(req, res) {
     try {
         // Criando o objeto corretamente
         const usuario = new Usuario(req.body);
-        console.log("aqui")
         // Chamando a função de inserção corretamente
         const usuarioCriado = await createUser(usuario);
         
-        console.log(usuarioCriado)
         return res.status(201).json({
             message: "Usuário criado com sucesso",
             data: usuarioCriado
@@ -22,4 +20,6 @@ async function createUsuarioController(req, res) {
     }
 }
 
-module.exports = createUsuarioController 
+module.exports = {
+    createUsuarioController
+} 

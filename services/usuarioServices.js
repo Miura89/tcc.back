@@ -1,12 +1,14 @@
 const cliente = require("../dbconnection");
 const Usuario = require("../models/Usuarios");
+const bcrypt = require("bcryptjs")
 
 async function createUser(usuario)
 {
-    console.log(usuario)
     if (!(usuario instanceof Usuario)) {
         throw new Error("Parâmetro deve ser uma instância de Usuario.");
     }
+    
+    usuario.senha = await bcrypt.hash(usuario.senha, 10);
 
     const query = `
         INSERT INTO Usuario (nome, email, senha, cpf, telefone, cidade, genero, idade, sexualidade, etnia)
@@ -21,8 +23,10 @@ async function createUser(usuario)
     ];
 
     try{
-        const { row } = await cliente.query(query, values);
-        return row[0];
+        const { rows } = await cliente.query(query, values);
+        console.log("Salvou no banco:")
+        console.log(rows[0])
+        return rows[0];
     }catch(error){
         throw new Error(error.message);
     }
