@@ -11,7 +11,7 @@ async function createUser(usuario)
     if (!(usuario instanceof Usuario)) {
         throw new Error("Parâmetro deve ser uma instância de Usuario.");
     }
-    
+    console.log(usuario.nome)
     usuario.senha = await bcrypt.hash(usuario.senha, 10);
 
     const query = `
@@ -25,14 +25,20 @@ async function createUser(usuario)
         usuario.telefone, usuario.cidade, usuario.genero, usuario.idade,
         usuario.sexualidade, usuario.etnia
     ];
-
-    try{
-        const { rows } = await cliente.query(query, values);
-        console.log("Salvou no banco:")
-        console.log(rows[0])
-        return rows[0];
-    }catch(error){
-        throw new Error(error.message);
+    const { rows } = await cliente.query(query, values);
+    if(rows.length > 0)
+    {
+        return {
+            message: 'Usuario inserido',
+            flag: true
+        }
+    }
+    else
+    {
+        return {
+            message: "Algo deu errado",
+            flag: false
+        }
     }
 }
 
