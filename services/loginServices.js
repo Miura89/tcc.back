@@ -2,7 +2,7 @@ const cliente = require("../dbconnection");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.TOKEN_JWT;
 
 async function checkLoginUsuario(email, senha) {
     const result = await cliente.query("SELECT * FROM Usuario WHERE email = $1", [email]);
@@ -20,7 +20,7 @@ async function checkLoginUsuario(email, senha) {
     }
 
     const token = jwt.sign(
-        { id: usuario.id, email: usuario.email },
+        { id: usuario.id, email: usuario.email, nome: usuario.nome },
         JWT_SECRET,
         { expiresIn: "1h" }
     );

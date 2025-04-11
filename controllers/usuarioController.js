@@ -2,19 +2,22 @@ const Usuario = require("../models/Usuarios");
 const usuarioService = require("../services/usuarioServices");
 
 async function createUsuarioController(req, res) {
-    try {
-        const usuario = new Usuario(req.body);
-        const usuarioCriado = await usuarioService.createUser(usuario);
-        
+
+    const usuario = new Usuario(req.body)
+    const resposta = await usuarioService.createUser(usuario)
+
+    if(resposta.flag == true)
+    {
         return res.status(201).json({
             message: "Usuário criado com sucesso",
-            data: usuarioCriado
+            flag: true
         });
-    } catch (error) {
+    }
+    else{
         return res.status(500).json({
-            message: "Erro ao criar usuário",
-            error: error.message
-        });
+            message: "Algo deu errado com o cadastro, tente novamente",
+            flag: false
+        })
     }
 }
 
