@@ -24,6 +24,7 @@ async function createUsuarioController(req, res) {
 async function enviarToken(req, res)
 {
     try{
+        console.log(req.body.emailTo)
         await usuarioService.verificarRedefinir(req.body.emailTo);
         return res.status(200).json({
             message: "Email enviado",
@@ -42,7 +43,8 @@ async function alterarSenha(req, res)
 {
     try{
         const verifica = await usuarioService.editarSenha(req.body.novaSenha, req.body.confirmacaoSenha, req.body.token)
-        if(verifica.flag === true)
+        console.log(verifica.flag)
+        if(verifica.flag == true)
         {
             return res.status(200).json({
                 message: "Senha alterada com sucesso",

@@ -98,8 +98,7 @@ async function editarSenha(novaSenha, confirmacaoSenha, token)
         "UPDATE Usuario SET senha = $1 WHERE token_redefine = $2",
         [senhaCriptografada, token]
     );
-
-    if(!alterar.rows.length)
+    if(alterar.rows[0] === 0)
         return {message: "Algo deu errado, tente novamente mais tarde", flag: false}
 
     return {message: "Senha alterada com sucesso", flag: true}
