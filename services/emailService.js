@@ -5,7 +5,7 @@ const mailerSend = new MailerSend({
   });
 
 const sendEmail = async (to, name, subject, html) =>{
-    const sentFrom = new Sender('ingressiasuporte@gmail.com', "Ingress IA")
+    const sentFrom = new Sender('MS_KXLZVa@ingressia.xyz', "Ingress IA")
     const recipents = [new Recipient(to, name)];
     
     const emailParams = new EmailParams()
