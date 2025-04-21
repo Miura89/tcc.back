@@ -13,4 +13,17 @@ class Usuario {
     }
 }
 
-module.exports = Usuario;
+class UsuarioDtoEditar {
+    constructor({nome, telefone, cidade, genero, idade, sexualidade, etnia }) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.cidade = cidade;
+        this.genero = genero;
+        this.idade = idade;
+        this.sexualidade = sexualidade;
+        this.etnia = etnia;
+    }
+}
+
+
+module.exports = {Usuario, UsuarioDtoEditar}

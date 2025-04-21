@@ -1,4 +1,4 @@
-const Usuario = require("../models/Usuarios");
+const {Usuario, UsuarioDtoEditar} = require("../models/Usuarios");
 const usuarioService = require("../services/usuarioServices");
 
 async function createUsuarioController(req, res) {
@@ -67,8 +67,29 @@ async function alterarSenha(req, res)
     }
 }
 
+async function alterarDadosUsuario(req, res) {
+    
+    const usuario = new UsuarioDtoEditar(req.body)
+    const resposta = await usuarioService.editarDados(usuario, 2) //Tem que botar para pegar o id da url
+
+    if(resposta.flag)
+    {
+        return res.status(201).json({
+            message: "Usuário alterado com sucesso",
+            flag: true
+        });
+    }
+    else{
+        return res.status(500).json({
+            message: "Algo deu errado ao alterar os dados, tente novamente",
+            flag: false
+        })
+    }
+}
+
 module.exports = {
     createUsuarioController,
     enviarToken,
-    alterarSenha
+    alterarSenha,
+    alterarDadosUsuario
 } 

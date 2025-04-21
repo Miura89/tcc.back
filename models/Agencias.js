@@ -1,4 +1,4 @@
-class Agencias {
+class Agencia {
     constructor({nome,email,senha,cpf,cnpj}){
         this.nome = nome,
         this.email = email,
@@ -8,4 +8,11 @@ class Agencias {
     }
 }
 
-module.exports = Agencias
+class AgenciaDtoEditar {
+    constructor({nome,cnpj}){
+        this.nome = nome,
+        this.cnpj = cnpj
+    }
+}
+
+module.exports = {Agencia, AgenciaDtoEditar}

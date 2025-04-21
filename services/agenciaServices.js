@@ -1,5 +1,5 @@
 const cliente = require("../dbconnection");
-const Agencia = require("../models/Agencias");
+const {Agencia, AgenciaDtoEditar} = require("../models/Agencias");
 const bcrypt = require("bcryptjs")
 
 async function createAgencia(agencia)
@@ -30,4 +30,37 @@ async function createAgencia(agencia)
     }
 }
 
-module.exports = createAgencia
+async function editarDados(agencia, id){
+    if (!(agencia instanceof AgenciaDtoEditar)) {
+        throw new Error("Parâmetro deve ser uma instância de Agencia.");
+    }
+
+    const query = `UPDATE Agencia SET nome = $1, cnpj = $2 
+                   WHERE id_agencia = $3`
+
+    const values = [
+        agencia.nome,agencia.cnpj, id
+    ]
+    
+    const { rows } = await cliente.query(query, values);
+    if(rows.length > 0)
+    {
+        return {
+            message: 'Dados alterados',
+            flag: true
+        }
+    }
+    else
+    {
+        return {
+            message: "Erro ao alterar dados",
+            flag: false
+        }
+    }
+
+}
+
+module.exports = {
+    createAgencia,
+    editarDados
+}

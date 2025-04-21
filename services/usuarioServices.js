@@ -1,5 +1,5 @@
 const cliente = require("../dbconnection");
-const Usuario = require("../models/Usuarios");
+const {Usuario, UsuarioDtoEditar} = require("../models/Usuarios");
 const bcrypt = require("bcryptjs")
 const emailSender = require("../services/emailService")
 const fs = require('fs');
@@ -103,4 +103,36 @@ async function editarSenha(novaSenha, confirmacaoSenha, token)
 
     return {message: "Senha alterada com sucesso", flag: true}
 }
-module.exports = {createUser, verificarRedefinir, verificarToken, editarSenha}
+
+async function editarDados(usuario, id){
+    if (!(usuario instanceof UsuarioDtoEditar)) {
+        throw new Error("Parâmetro deve ser uma instância de Usuario.");
+    }
+
+    const query = `UPDATE Usuario SET nome = $1, telefone = $2, cidade = $3, genero = $4, idade = $5, sexualidade = $6, etnia = $7 
+                   WHERE id_usuario = $8`
+
+    const values = [
+        usuario.nome,usuario.telefone, usuario.cidade, usuario.genero,
+        usuario.idade,usuario.sexualidade, usuario.etnia, id
+    ]
+    
+    const { rows } = await cliente.query(query, values);
+    if(rows.length > 0)
+    {
+        return {
+            message: 'Dados alterados',
+            flag: true
+        }
+    }
+    else
+    {
+        return {
+            message: "Erro ao alterar dados",
+            flag: false
+        }
+    }
+
+}
+
+module.exports = {createUser, verificarRedefinir, verificarToken, editarSenha, editarDados}
